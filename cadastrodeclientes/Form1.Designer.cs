@@ -33,15 +33,15 @@ namespace cadastrodeclientes
             this.lblTitulo = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tbCadastro = new System.Windows.Forms.TabPage();
-            this.tbConsulta = new System.Windows.Forms.TabPage();
-            this.lblNomeCompleto = new System.Windows.Forms.Label();
-            this.txtNomeCompleto = new System.Windows.Forms.TextBox();
-            this.lblNomeSocial = new System.Windows.Forms.Label();
-            this.txtNomeSocial = new System.Windows.Forms.TextBox();
-            this.lblEmail = new System.Windows.Forms.Label();
-            this.txtEmail = new System.Windows.Forms.TextBox();
-            this.lblCPF = new System.Windows.Forms.Label();
             this.txtCPF = new System.Windows.Forms.MaskedTextBox();
+            this.lblCPF = new System.Windows.Forms.Label();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.lblEmail = new System.Windows.Forms.Label();
+            this.txtNomeSocial = new System.Windows.Forms.TextBox();
+            this.lblNomeSocial = new System.Windows.Forms.Label();
+            this.txtNomeCompleto = new System.Windows.Forms.TextBox();
+            this.lblNomeCompleto = new System.Windows.Forms.Label();
+            this.tbConsulta = new System.Windows.Forms.TabPage();
             this.btnSalvar = new System.Windows.Forms.Button();
             this.panelTopo.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -98,66 +98,13 @@ namespace cadastrodeclientes
             this.tbCadastro.Text = "Dados de Clientes";
             this.tbCadastro.UseVisualStyleBackColor = true;
             // 
-            // tbConsulta
+            // txtCPF
             // 
-            this.tbConsulta.Location = new System.Drawing.Point(4, 29);
-            this.tbConsulta.Name = "tbConsulta";
-            this.tbConsulta.Padding = new System.Windows.Forms.Padding(3);
-            this.tbConsulta.Size = new System.Drawing.Size(842, 298);
-            this.tbConsulta.TabIndex = 1;
-            this.tbConsulta.Text = "Consulta";
-            this.tbConsulta.UseVisualStyleBackColor = true;
-            // 
-            // lblNomeCompleto
-            // 
-            this.lblNomeCompleto.AutoSize = true;
-            this.lblNomeCompleto.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lblNomeCompleto.Location = new System.Drawing.Point(24, 29);
-            this.lblNomeCompleto.Name = "lblNomeCompleto";
-            this.lblNomeCompleto.Size = new System.Drawing.Size(123, 20);
-            this.lblNomeCompleto.TabIndex = 0;
-            this.lblNomeCompleto.Text = "Nome Completo";
-            // 
-            // txtNomeCompleto
-            // 
-            this.txtNomeCompleto.Location = new System.Drawing.Point(154, 26);
-            this.txtNomeCompleto.Name = "txtNomeCompleto";
-            this.txtNomeCompleto.Size = new System.Drawing.Size(379, 26);
-            this.txtNomeCompleto.TabIndex = 1;
-            // 
-            // lblNomeSocial
-            // 
-            this.lblNomeSocial.AutoSize = true;
-            this.lblNomeSocial.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lblNomeSocial.Location = new System.Drawing.Point(24, 83);
-            this.lblNomeSocial.Name = "lblNomeSocial";
-            this.lblNomeSocial.Size = new System.Drawing.Size(98, 20);
-            this.lblNomeSocial.TabIndex = 2;
-            this.lblNomeSocial.Text = "Nome Social";
-            // 
-            // txtNomeSocial
-            // 
-            this.txtNomeSocial.Location = new System.Drawing.Point(154, 80);
-            this.txtNomeSocial.Name = "txtNomeSocial";
-            this.txtNomeSocial.Size = new System.Drawing.Size(379, 26);
-            this.txtNomeSocial.TabIndex = 3;
-            // 
-            // lblEmail
-            // 
-            this.lblEmail.AutoSize = true;
-            this.lblEmail.ForeColor = System.Drawing.SystemColors.Highlight;
-            this.lblEmail.Location = new System.Drawing.Point(24, 137);
-            this.lblEmail.Name = "lblEmail";
-            this.lblEmail.Size = new System.Drawing.Size(53, 20);
-            this.lblEmail.TabIndex = 4;
-            this.lblEmail.Text = "E-mail";
-            // 
-            // txtEmail
-            // 
-            this.txtEmail.Location = new System.Drawing.Point(154, 134);
-            this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(379, 26);
-            this.txtEmail.TabIndex = 5;
+            this.txtCPF.Location = new System.Drawing.Point(154, 188);
+            this.txtCPF.Mask = "###,###,###-##";
+            this.txtCPF.Name = "txtCPF";
+            this.txtCPF.Size = new System.Drawing.Size(140, 26);
+            this.txtCPF.TabIndex = 7;
             // 
             // lblCPF
             // 
@@ -169,13 +116,66 @@ namespace cadastrodeclientes
             this.lblCPF.TabIndex = 6;
             this.lblCPF.Text = "CPF";
             // 
-            // txtCPF
+            // txtEmail
             // 
-            this.txtCPF.Location = new System.Drawing.Point(154, 188);
-            this.txtCPF.Mask = "###,###,###-##";
-            this.txtCPF.Name = "txtCPF";
-            this.txtCPF.Size = new System.Drawing.Size(140, 26);
-            this.txtCPF.TabIndex = 7;
+            this.txtEmail.Location = new System.Drawing.Point(154, 134);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(379, 26);
+            this.txtEmail.TabIndex = 5;
+            // 
+            // lblEmail
+            // 
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lblEmail.Location = new System.Drawing.Point(24, 137);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(53, 20);
+            this.lblEmail.TabIndex = 4;
+            this.lblEmail.Text = "E-mail";
+            // 
+            // txtNomeSocial
+            // 
+            this.txtNomeSocial.Location = new System.Drawing.Point(154, 80);
+            this.txtNomeSocial.Name = "txtNomeSocial";
+            this.txtNomeSocial.Size = new System.Drawing.Size(379, 26);
+            this.txtNomeSocial.TabIndex = 3;
+            // 
+            // lblNomeSocial
+            // 
+            this.lblNomeSocial.AutoSize = true;
+            this.lblNomeSocial.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lblNomeSocial.Location = new System.Drawing.Point(24, 83);
+            this.lblNomeSocial.Name = "lblNomeSocial";
+            this.lblNomeSocial.Size = new System.Drawing.Size(98, 20);
+            this.lblNomeSocial.TabIndex = 2;
+            this.lblNomeSocial.Text = "Nome Social";
+            // 
+            // txtNomeCompleto
+            // 
+            this.txtNomeCompleto.Location = new System.Drawing.Point(154, 26);
+            this.txtNomeCompleto.Name = "txtNomeCompleto";
+            this.txtNomeCompleto.Size = new System.Drawing.Size(379, 26);
+            this.txtNomeCompleto.TabIndex = 1;
+            // 
+            // lblNomeCompleto
+            // 
+            this.lblNomeCompleto.AutoSize = true;
+            this.lblNomeCompleto.ForeColor = System.Drawing.SystemColors.Highlight;
+            this.lblNomeCompleto.Location = new System.Drawing.Point(24, 29);
+            this.lblNomeCompleto.Name = "lblNomeCompleto";
+            this.lblNomeCompleto.Size = new System.Drawing.Size(123, 20);
+            this.lblNomeCompleto.TabIndex = 0;
+            this.lblNomeCompleto.Text = "Nome Completo";
+            // 
+            // tbConsulta
+            // 
+            this.tbConsulta.Location = new System.Drawing.Point(4, 29);
+            this.tbConsulta.Name = "tbConsulta";
+            this.tbConsulta.Padding = new System.Windows.Forms.Padding(3);
+            this.tbConsulta.Size = new System.Drawing.Size(842, 298);
+            this.tbConsulta.TabIndex = 1;
+            this.tbConsulta.Text = "Consulta";
+            this.tbConsulta.UseVisualStyleBackColor = true;
             // 
             // btnSalvar
             // 
@@ -184,7 +184,7 @@ namespace cadastrodeclientes
             this.btnSalvar.ForeColor = System.Drawing.Color.White;
             this.btnSalvar.Location = new System.Drawing.Point(91, 452);
             this.btnSalvar.Name = "btnSalvar";
-            this.btnSalvar.Size = new System.Drawing.Size(130, 44);
+            this.btnSalvar.Size = new System.Drawing.Size(133, 50);
             this.btnSalvar.TabIndex = 2;
             this.btnSalvar.Text = "Salvar";
             this.btnSalvar.UseVisualStyleBackColor = false;
