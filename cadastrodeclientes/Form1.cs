@@ -18,7 +18,7 @@ namespace cadastrodeclientes
         MySqlConnection Conexao;
         string data_source = "datasource=localhost; username=root; password=; database=db_cadastro";
 
-        private int ?codigo_cliente = null;
+        private int? codigo_cliente = null;
 
 
         public frmCadastrodeClientes()
@@ -137,132 +137,132 @@ namespace cadastrodeclientes
 
 
 
-            //Validação Regex
-            private bool isValidEmail(string email)
+        //Validação Regex
+        private bool isValidEmail(string email)
+        {
+            string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
+            Regex regex = new Regex(pattern);
+            return regex.IsMatch(email);
+        }
+
+
+        //Função para validar se o CPF tem exatamente 11 dígitos numéricos
+        private bool isValidCPFLength(string cpf)
+        {
+            //Remover quaisquer caracteres não numéricos (como pontos e traços)
+            cpf = cpf.Replace(".", "").Replace("-", "");
+
+            //Verificar se o CPF tem exatamente 11 caracteres numéricos
+            if (cpf.Length != 11 || !cpf.All(char.IsDigit))
             {
-                string pattern = @"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$";
-                Regex regex = new Regex(pattern);
-                return regex.IsMatch(email);
+                return false;
             }
+            return true;
+        }
 
 
-            //Função para validar se o CPF tem exatamente 11 dígitos numéricos
-            private bool isValidCPFLength(string cpf)
+
+
+        private void btnSalvar_Click(object sender, EventArgs e)
+        {
+            try
             {
-                //Remover quaisquer caracteres não numéricos (como pontos e traços)
-                cpf = cpf.Replace(".", "").Replace("-", "");
+                //Validação de campos obrigátórios
+                if (string.IsNullOrEmpty(txtNomeCompleto.Text.Trim()) ||
+                    string.IsNullOrEmpty(txtEmail.Text.Trim()) ||
+                    string.IsNullOrEmpty(txtCPF.Text.Trim()))
 
-                //Verificar se o CPF tem exatamente 11 caracteres numéricos
-                if (cpf.Length != 11 || !cpf.All(char.IsDigit))
                 {
-                    return false;
-                }
-                return true;
-            }
-
-
-
-
-            private void btnSalvar_Click(object sender, EventArgs e)
-            {
-                try
-                {
-                    //Validação de campos obrigátórios
-                    if (string.IsNullOrEmpty(txtNomeCompleto.Text.Trim()) ||
-                        string.IsNullOrEmpty(txtEmail.Text.Trim()) ||
-                        string.IsNullOrEmpty(txtCPF.Text.Trim()))
-
-                    {
-                        MessageBox.Show("Todos os campos devem ser preenchidos.",
-                                        "Validação",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                        return; // Impede o prosseguimento se algum campo estiver vazio
-                    }
-
-
-                    //Validação do e-mail
-                    string email = txtEmail.Text.Trim();
-                    if (!isValidEmail(email))
-                    {
-                        MessageBox.Show("E-mail inválido. Certifique-se de que o email está no formato correto.",
-                                        "Validação",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                        return; // Impede o prosseguimento se o e-mail for inválido
-
-                    }
-
-
-                    //Validação do CPF
-                    string cpf = txtCPF.Text.Trim();
-                    if (!isValidCPFLength(cpf))
-                    {
-                        MessageBox.Show("CPF inválido. Certifique-se de que o CPF tenha 11 dígitos numéricos",
-                                        "Validação",
-                                        MessageBoxButtons.OK,
-                                        MessageBoxIcon.Warning);
-                        return; //Impede o prosseguimento se o CPF for inválido
-                    }
-
-
-                    //Cria a conexão com o banco de dados
-                    Conexao = new MySqlConnection(data_source);
-                    Conexao.Open();
-
-                    //Teste de abertura de banco
-                    //MessageBox.Show("Conexão aberta com sucesso");
-
-                    //Comando SQL para inserir um novo cliente no banco de dados
-                    MySqlCommand cmd = new MySqlCommand
-                    {
-                        Connection = Conexao
-                    };
-
-                    cmd.Prepare();
-
-                    if(codigo_cliente == null)
-                    { 
-                        // Insert CREATE 
-                        cmd.CommandText = "INSERT INTO dadosdecliente(nomecompleto, nomesocial, email, cpf) " +
-                        "VALUES ( @nomecompleto, @nomesocial, @email, @cpf)";
-
-
-                         //Adiciona os parâmetros com os dados do formulário
-                         cmd.Parameters.AddWithValue("@nomecompleto", txtNomeCompleto.Text.Trim());
-                         cmd.Parameters.AddWithValue("@nomesocial", txtNomeSocial.Text.Trim());
-                         cmd.Parameters.AddWithValue("@email", email);
-                         cmd.Parameters.AddWithValue("@cpf", cpf);
-
-                        //Executa o comando de inserção no banco
-                         cmd.ExecuteNonQuery();
-
-
-
-                       //Mensagem de sucesso
-                         MessageBox.Show("Contato inserido com Sucesso: ",
-                                    "Sucesso",
+                    MessageBox.Show("Todos os campos devem ser preenchidos.",
+                                    "Validação",
                                     MessageBoxButtons.OK,
-                                    MessageBoxIcon.Information);
-                    }
-                    else
-                    {
-                         //UPDATE
-                        cmd.CommandText = $"UPDATE `dadosdecliente` SET " +
-                        $"nomecompleto = @nomecompleto, " +
-                        $"nomesocial= @nomesocial, " +
-                        $"email = @email ," +
-                        $"cpf = @cpf " +
-                        $"WHERE codigo = @codigo";
+                                    MessageBoxIcon.Warning);
+                    return; // Impede o prosseguimento se algum campo estiver vazio
+                }
 
-                        cmd.Parameters.AddWithValue("@nomecompleto", txtNomeCompleto.Text.Trim());
-                        cmd.Parameters.AddWithValue("@nomesocial", txtNomeSocial.Text.Trim());
-                        cmd.Parameters.AddWithValue("@email", email);
-                        cmd.Parameters.AddWithValue("@cpf", cpf);
-                        cmd.Parameters.AddWithValue("@codigo", codigo_cliente);
 
-                        //Executa o comando de alteração no banco
-                        cmd.ExecuteNonQuery();
+                //Validação do e-mail
+                string email = txtEmail.Text.Trim();
+                if (!isValidEmail(email))
+                {
+                    MessageBox.Show("E-mail inválido. Certifique-se de que o email está no formato correto.",
+                                    "Validação",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return; // Impede o prosseguimento se o e-mail for inválido
+
+                }
+
+
+                //Validação do CPF
+                string cpf = txtCPF.Text.Trim();
+                if (!isValidCPFLength(cpf))
+                {
+                    MessageBox.Show("CPF inválido. Certifique-se de que o CPF tenha 11 dígitos numéricos",
+                                    "Validação",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Warning);
+                    return; //Impede o prosseguimento se o CPF for inválido
+                }
+
+
+                //Cria a conexão com o banco de dados
+                Conexao = new MySqlConnection(data_source);
+                Conexao.Open();
+
+                //Teste de abertura de banco
+                //MessageBox.Show("Conexão aberta com sucesso");
+
+                //Comando SQL para inserir um novo cliente no banco de dados
+                MySqlCommand cmd = new MySqlCommand
+                {
+                    Connection = Conexao
+                };
+
+                cmd.Prepare();
+
+                if (codigo_cliente == null)
+                {
+                    // Insert CREATE 
+                    cmd.CommandText = "INSERT INTO dadosdecliente(nomecompleto, nomesocial, email, cpf) " +
+                    "VALUES ( @nomecompleto, @nomesocial, @email, @cpf)";
+
+
+                    //Adiciona os parâmetros com os dados do formulário
+                    cmd.Parameters.AddWithValue("@nomecompleto", txtNomeCompleto.Text.Trim());
+                    cmd.Parameters.AddWithValue("@nomesocial", txtNomeSocial.Text.Trim());
+                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@cpf", cpf);
+
+                    //Executa o comando de inserção no banco
+                    cmd.ExecuteNonQuery();
+
+
+
+                    //Mensagem de sucesso
+                    MessageBox.Show("Contato inserido com Sucesso: ",
+                               "Sucesso",
+                               MessageBoxButtons.OK,
+                               MessageBoxIcon.Information);
+                }
+                else
+                {
+                    //UPDATE
+                    cmd.CommandText = $"UPDATE `dadosdecliente` SET " +
+                    $"nomecompleto = @nomecompleto, " +
+                    $"nomesocial= @nomesocial, " +
+                    $"email = @email ," +
+                    $"cpf = @cpf " +
+                    $"WHERE codigo = @codigo";
+
+                    cmd.Parameters.AddWithValue("@nomecompleto", txtNomeCompleto.Text.Trim());
+                    cmd.Parameters.AddWithValue("@nomesocial", txtNomeSocial.Text.Trim());
+                    cmd.Parameters.AddWithValue("@email", email);
+                    cmd.Parameters.AddWithValue("@cpf", cpf);
+                    cmd.Parameters.AddWithValue("@codigo", codigo_cliente);
+
+                    //Executa o comando de alteração no banco
+                    cmd.ExecuteNonQuery();
 
                     //Mensagem de sucesso para dados atualizados
                     MessageBox.Show($"Os dados com o código {codigo_cliente} foram alterados com sucesso!",
@@ -285,52 +285,52 @@ namespace cadastrodeclientes
                 //Muda para a aba de pesquisa
                 tabControl1.SelectedIndex = 1;
 
-                }
-
-                catch (MySqlException ex)
-                {
-                    //Tratar erros relacionados ao MySQL
-                    MessageBox.Show("Erro " + ex.Number + "ocorreu: " + ex.Message,
-                          "Erro",
-                          MessageBoxButtons.OK,
-                          MessageBoxIcon.Error);
-
-                }
-
-                catch (Exception ex)
-                {
-
-                    //Trata outros tipos de erro
-                    MessageBox.Show("Ocorreu: " + ex.Message,
-                        "Erro",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Error);
-
-
-                }
-                finally
-                {
-                    //Garante que a conexão com o banco será fechada, mesmo se ocorrer erro
-                    if (Conexao != null && Conexao.State == ConnectionState.Open)
-                    {
-                        Conexao.Close();
-
-                        //Teste de fechamento de banco
-                        //MessageBox.Show("Conexão fechada com sucesso");
-                    }
-                }
             }
 
-            private void btnPesquisar_Click(object sender, EventArgs e)
+            catch (MySqlException ex)
             {
+                //Tratar erros relacionados ao MySQL
+                MessageBox.Show("Erro " + ex.Number + "ocorreu: " + ex.Message,
+                      "Erro",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Error);
+
+            }
+
+            catch (Exception ex)
+            {
+
+                //Trata outros tipos de erro
+                MessageBox.Show("Ocorreu: " + ex.Message,
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                //Garante que a conexão com o banco será fechada, mesmo se ocorrer erro
+                if (Conexao != null && Conexao.State == ConnectionState.Open)
+                {
+                    Conexao.Close();
+
+                    //Teste de fechamento de banco
+                    //MessageBox.Show("Conexão fechada com sucesso");
+                }
+            }
+        }
+
+        private void btnPesquisar_Click(object sender, EventArgs e)
+        {
             string query = "SELECT * FROM dadosdecliente WHERE nomecompleto LIKE @q OR nomesocial LIKE @q ORDER BY codigo DESC";
             carregar_clientes_com_query(query);
-            }
+        }
 
         private void lstCliente_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             ListView.SelectedListViewItemCollection clientedaselecao = lstCliente.SelectedItems;
-            foreach(ListViewItem item in clientedaselecao)
+            foreach (ListViewItem item in clientedaselecao)
             {
                 codigo_cliente = Convert.ToInt32(item.SubItems[0].Text);
 
@@ -362,5 +362,84 @@ namespace cadastrodeclientes
 
             txtNomeCompleto.Focus();
         }
+
+        private void toolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            excluir_cliente();
+        }
+
+        private void btnExcluirCliente_Click(object sender, EventArgs e)
+        {
+            excluir_cliente();
+        }
+
+        private void excluir_cliente()
+        {
+            try
+            {
+                DialogResult opcaoDigitada = MessageBox.Show("Tem certeza que deseja excluir o registro de código:" + codigo_cliente,
+                         "Tem certeza?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+
+                if (opcaoDigitada == DialogResult.Yes)
+                {
+                    Conexao = new MySqlConnection(data_source);
+
+                    Conexao.Open();
+
+                    MySqlCommand cmd = new MySqlCommand();
+
+                    cmd.Connection = Conexao;
+
+                    cmd.Prepare();
+
+                    cmd.CommandText = "DELETE FROM dadosdecliente WHERE codigo = @codigo";
+
+                    cmd.Parameters.AddWithValue("@codigo", codigo_cliente);
+
+                    cmd.ExecuteNonQuery();
+
+
+                    //Excluir no Banco de Dados
+                    MessageBox.Show("Os dados do cliente foram EXCLUÍDOS!",
+                                    "Sucesso",
+                                    MessageBoxButtons.OK,
+                                    MessageBoxIcon.Information);
+
+                    carregar_clientes();
+                }
+            }
+
+            catch (MySqlException ex)
+            {
+                //Tratar erros relacionados ao MySQL
+                MessageBox.Show("Erro " + ex.Number + "ocorreu: " + ex.Message,
+                      "Erro",
+                      MessageBoxButtons.OK,
+                      MessageBoxIcon.Error);
+
+            }
+
+            catch (Exception ex)
+            {
+
+                //Trata outros tipos de erro
+                MessageBox.Show("Ocorreu: " + ex.Message,
+                    "Erro",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error);
+
+
+            }
+            finally
+            {
+                //Garante que a conexão com o banco será fechada, mesmo se ocorrer erro
+                if (Conexao != null && Conexao.State == ConnectionState.Open)
+                {
+                    Conexao.Close();
+
+
+                }
+            }
+        }
     }
-    }
+}
