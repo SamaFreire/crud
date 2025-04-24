@@ -330,6 +330,7 @@ namespace cadastrodeclientes
         private void lstCliente_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
             ListView.SelectedListViewItemCollection clientedaselecao = lstCliente.SelectedItems;
+            btnExcluirCliente.Visible = true;
             foreach (ListViewItem item in clientedaselecao)
             {
                 codigo_cliente = Convert.ToInt32(item.SubItems[0].Text);
@@ -353,6 +354,11 @@ namespace cadastrodeclientes
 
         private void btnNovoCliente_Click(object sender, EventArgs e)
         {
+            zerar_formulario();
+        }
+
+        private void zerar_formulario()
+        {
             codigo_cliente = null;
 
             txtNomeCompleto.Text = String.Empty;
@@ -361,6 +367,8 @@ namespace cadastrodeclientes
             txtCPF.Text = " ";
 
             txtNomeCompleto.Focus();
+
+            btnExcluirCliente.Visible = false;
         }
 
         private void toolStripMenuItem1_Click(object sender, EventArgs e)
@@ -406,6 +414,10 @@ namespace cadastrodeclientes
                                     MessageBoxIcon.Information);
 
                     carregar_clientes();
+
+                    zerar_formulario();
+
+                    
                 }
             }
 
